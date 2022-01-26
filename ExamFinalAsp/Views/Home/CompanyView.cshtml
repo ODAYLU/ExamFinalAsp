@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Company>
+
+<section class="pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="mb-3">Employees Details</h3>
+            </div>
+            <div class="col-6 text-right">
+                <a class="btn btn-outline-primary mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                    <
+                </a>
+                <a class="btn btn-outline-primary mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+                    >
+                </a>
+            </div>
+            <div class="col-12">
+                <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+
+                    <div class="container">
+                        @{ var SumOfImages = 1;
+                            for (int i = 0; i < Math.Ceiling((decimal)Model.Count() / SumOfImages); i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active": "")">
+                                    <div class="row justify-content-around">
+                                        @{ foreach (Company stud in Model.ToList().Skip(i * SumOfImages).Take(SumOfImages))
+                                            {
+                                                <div class="container text-center" style="margin:0 auto;">
+
+                                                    <img src="@stud.Logo" width="100" asp-append-version="true" />
+                                                    <div class="card-body">
+                                                        <h5 asp-for="EmployeeId" class="card-title">@stud.CName</h5>
+                                                        <p>@stud.Description</p>
+                                                        <section class="section-products">
+                                                            <div class="container">
+                                                                
+                                                                <div class="row">
+                                                                    <!-- Single Product -->
+                                                                    @foreach (var item in ViewBag.Cars)
+                                                                    {
+                                                                        if (item.Type == stud.Id)
+                                                                        {
+                                                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                                <div id="product-1" class="single-product">
+                                                                                    <div class="part-1">
+                                                                                        <img class="card-img-top" src="@item.CarImage" class="img-responsive" alt="Card image cap" asp-append-version="true" />
+                                                                                    </div>
+                                                                                    <div class="part-2">
+                                                                                        <h3 class="product-title">@item.CarName</h3>
+                                                                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary">Detail</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+
+                                                                    }
+
+
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                        <a asp-action="Index" class="btn btn-outline-primary">Go To Home</a>
+                                                    </div>
+                                                </div>
+                                            } }
+                                    </div>
+                                </div>
+                            } }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
